@@ -7,3 +7,6 @@
   stroke: steelblue;
   stroke-width: 1;
 }
+.chartBlock{
+  display: inline-block;
+}

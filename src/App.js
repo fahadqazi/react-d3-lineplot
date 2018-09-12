@@ -17,7 +17,7 @@ const randomNumbers = (min, max) => {
 const genTimeData = function(){
   const arr = []
   const duration = 500
-  const maxLength = 10
+  const maxLength = 100
   const now = new Date()
   for (let i=0; i<maxLength; i++){
     arr.push({
@@ -45,13 +45,30 @@ class App extends Component {
     })
   }
 
+  tick(){
+    this.setState({
+      data: genTimeData()
+    })
+  }
+
+  componentDidMount(){
+    this.timerId = setInterval(
+      () => this.tick(),
+      2000
+    )
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timerId)
+  }
+
   render() {
     // console.log('this.state: ', this.state)
     return (
       <div className="App">
         <svg width={800} height={800} onClick={this.handleClick}>
           {/*<ScatterPlot className='chart' x={50} y={50} data={genData()} width={this.state.width} height={this.state.height}/>*/}
-          <LineChart className='chart' x={50} y={50} data={genTimeData()} width={this.state.width} height={this.state.height}/>
+            <LineChart className='chart' x={50} y={50} data={genTimeData()} width={this.state.width} height={this.state.height}/>
         </svg>
       </div>
     );
