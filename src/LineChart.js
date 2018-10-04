@@ -40,18 +40,33 @@ class LineChart extends Component {
       .y(d => this.state.yScale(d.y));
   }
 
+  lineRef = React.createRef();
+
   componentDidUpdate() {
-    console.log("component did update");
+    // console.log("component did update");
+
+    let el = d3.select(this.lineRef.current)
+    console.log('el: ', el)
+    el.transition()
+    .duration(800)
+    .ease(d3.easeLinear)
+    // .attr('d', this.props.data)
+    .on('start', () => console.log('start'))
+    .on('end', () => {
+      console.log('ending')
+    })
   }
 
   render() {
+    // console.log('this.props: ', this.props)
+    // console.log('this.state: ', this.state)
     const { x, y, width, height } = this.props;
     const { xScale, yScale } = this.state;
     return (
       <div className="chart">
         <svg width={300} height={300}>
           <g width={width} height={height} transform={`${x}, ${y}`}>
-            <path className="line" d={this.line(this.state.data)} />
+            <path className="line" d={this.line(this.props.data)} ref={this.lineRef}/>
             <Axis x={0} y={height} type="Bottom" scale={xScale} />
             <Axis x={0} y={0} type="Left" scale={yScale} />
           </g>

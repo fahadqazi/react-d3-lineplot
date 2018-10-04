@@ -14,20 +14,19 @@ const genTimeData = function() {
   const duration = 500;
   const maxLength = 100;
   const now = new Date();
-  const obj = {};
+  // const obj = {};
   for (let i = 0; i < maxLength; i++) {
     arr.push({
       x: new Date(now.getTime() - (maxLength - i) * duration),
       y: randomNumbers(90, 100)
     });
   }
-  // console.log("arr: ", arr);
   return arr;
 };
 
 const createDataObject = function() {
   var newArr = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 10; i++) {
     newArr.push(genTimeData());
   }
   return newArr;
@@ -60,21 +59,17 @@ class App extends Component {
   }
 
   updateData() {
-    return this.state.data.forEach(i => {
+    var newData = this.state.data.map(i => {
       var newItem = i.splice(0)
       newItem.push(getDataPoint())
       newItem.shift()
       return newItem
     })
-    // var newOne = Object.assign(this.state.data);
-    // newOne.push(getDataPoint());
-    // newOne.shift();
-    // console.log(newOne, newOne.length);
-    // return newOne;
+    return newData;
   }
 
   componentDidMount() {
-    this.timerId = setInterval(() => this.tick(), 3000);
+    this.timerId = setInterval(() => this.tick(), 1000);
   }
 
   componentWillUnmount() {
@@ -82,10 +77,7 @@ class App extends Component {
   }
 
   renderDivs() {
-    // var arr = [1, 2, 3, 4, 5, 6];
-    // console.log("this.state.data: ", this.state.data);
-    var newArr = this.state.data.map(item => {
-      // console.log(item, typeof item);
+    var chartDiv = this.state.data.map(item => {
       return (
         <div>
           <LineChart
@@ -97,8 +89,9 @@ class App extends Component {
           />
         </div>
       );
-    });
-    return <div>{newArr}</div>;
+    })
+
+    return chartDiv;
   }
 
   render() {
