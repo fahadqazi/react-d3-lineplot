@@ -28,27 +28,37 @@ const genTimeData = function() {
   return arr;
 };
 
-// console.log("GenTimeDate: ", genTimeData());
+const getDataPoint = function() {
+  return {
+    x: new Date(),
+    y: randomNumbers(90, 100)
+  };
+};
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       width: 300,
-      height: 200
+      height: 200,
+      data: genTimeData()
     };
-    // this.handleClick = this.handleClick.bind(this);
+    this.updateData = this.updateData.bind(this);
+    this.tick = this.tick.bind(this);
   }
-  // handleClick() {
-  //   this.setState({
-  //     data: genData()
-  //   });
-  // }
 
   tick() {
     this.setState({
-      data: genTimeData()
+      data: this.updateData()
     });
+  }
+
+  updateData() {
+    var newOne = Object.assign(this.state.data);
+    newOne.push(getDataPoint());
+    newOne.shift();
+    // console.log(newOne, newOne.length);
+    return newOne;
   }
 
   componentDidMount() {
@@ -60,29 +70,14 @@ class App extends Component {
   }
 
   render() {
-    // console.log('this.state: ', this.state)
     return (
       <div className="App">
-        {/* <svg width={800} height={800} onClick={this.handleClick}> */}
         <svg width={800} height={800}>
-          {/* <ScatterPlot
-            className="chart"
-            x={50}
-            y={50}
-            data={genData()}
-          {/* <ScatterPlot
-            className="chart"
-            x={50}
-            y={50}
-            data={genData()}
-            width={this.state.width}
-            height={this.state.height}
-          /> */}
           <LineChart
             className="chart"
             x={50}
             y={50}
-            data={genTimeData()}
+            data={this.state.data}
             width={this.state.width}
             height={this.state.height}
           />
