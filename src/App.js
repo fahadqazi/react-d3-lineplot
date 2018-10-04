@@ -4,11 +4,6 @@ import LineChart from "./LineChart";
 // import * as d3 from "d3";
 import "./App.css";
 
-// const data = d3.range(100).map(_ => [Math.random(), Math.random()]);
-
-// const genData = function() {
-//   return d3.range(100).map(_ => [Math.random(), Math.random()]);
-// };
 
 const randomNumbers = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
@@ -35,7 +30,6 @@ const createDataObject = function() {
   for (let i = 0; i < 8; i++) {
     newArr.push(genTimeData());
   }
-  // console.log("new Arr: ", newArr);
   return newArr;
 };
 
@@ -52,7 +46,6 @@ class App extends Component {
     this.state = {
       width: 300,
       height: 200,
-      // data: genTimeData()
       data: createDataObject()
     };
     this.updateData = this.updateData.bind(this);
@@ -67,11 +60,17 @@ class App extends Component {
   }
 
   updateData() {
-    var newOne = Object.assign(this.state.data);
-    newOne.push(getDataPoint());
-    newOne.shift();
+    return this.state.data.forEach(i => {
+      var newItem = i.splice(0)
+      newItem.push(getDataPoint())
+      newItem.shift()
+      return newItem
+    })
+    // var newOne = Object.assign(this.state.data);
+    // newOne.push(getDataPoint());
+    // newOne.shift();
     // console.log(newOne, newOne.length);
-    return newOne;
+    // return newOne;
   }
 
   componentDidMount() {
@@ -86,7 +85,7 @@ class App extends Component {
     // var arr = [1, 2, 3, 4, 5, 6];
     // console.log("this.state.data: ", this.state.data);
     var newArr = this.state.data.map(item => {
-      console.log(item, typeof item);
+      // console.log(item, typeof item);
       return (
         <div>
           <LineChart
