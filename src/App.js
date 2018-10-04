@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-// import ScatterPlot from "./ScatterPlot";
 import LineChart from "./LineChart";
-// import * as d3 from "d3";
 import "./App.css";
-
 
 const randomNumbers = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
@@ -14,7 +11,6 @@ const genTimeData = function() {
   const duration = 500;
   const maxLength = 100;
   const now = new Date();
-  // const obj = {};
   for (let i = 0; i < maxLength; i++) {
     arr.push({
       x: new Date(now.getTime() - (maxLength - i) * duration),
@@ -60,11 +56,11 @@ class App extends Component {
 
   updateData() {
     var newData = this.state.data.map(i => {
-      var newItem = i.splice(0)
-      newItem.push(getDataPoint())
-      newItem.shift()
-      return newItem
-    })
+      var newItem = i.splice(0);
+      newItem.push(getDataPoint());
+      newItem.shift();
+      return newItem;
+    });
     return newData;
   }
 
@@ -89,7 +85,7 @@ class App extends Component {
           />
         </div>
       );
-    })
+    });
 
     return chartDiv;
   }

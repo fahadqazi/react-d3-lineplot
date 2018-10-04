@@ -19,17 +19,25 @@ class LineChart extends Component {
           d3.min(this.props.data, d => d.y),
           d3.max(this.props.data, d => d.y)
         ])
-        .range([this.props.height, 0])
+        .range([this.props.height, 0]),
+      data: []
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    let { xScale, yScale } = state;
-    let { data } = props;
-    xScale.domain([d3.min(props.data, d => d.x), d3.max(props.data, d => d.x)]);
-    yScale.domain([d3.min(props.data, d => d.y), d3.max(props.data, d => d.y)]);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let { xScale, yScale } = prevState;
+    let { data } = nextProps;
+    xScale.domain([
+      d3.min(nextProps.data, d => d.x),
+      d3.max(nextProps.data, d => d.x)
+    ]);
+    yScale.domain([
+      d3.min(nextProps.data, d => d.y),
+      d3.max(nextProps.data, d => d.y)
+    ]);
 
-    return { state, xScale, yScale, data };
+    prevState = { ...prevState, xScale, yScale, data };
+    return prevState;
   }
 
   get line() {
@@ -42,31 +50,33 @@ class LineChart extends Component {
 
   lineRef = React.createRef();
 
-  componentDidUpdate() {
-    // console.log("component did update");
+  // componentDidUpdate() {
+  //   let el = d3.select(this.lineRef.current);
 
-    let el = d3.select(this.lineRef.current)
-    console.log('el: ', el)
-    el.transition()
-    .duration(800)
-    .ease(d3.easeLinear)
-    // .attr('d', this.props.data)
-    .on('start', () => console.log('start'))
-    .on('end', () => {
-      console.log('ending')
-    })
-  }
+  //   el.transition()
+  //     .duration(800)
+  //     .ease(d3.easeLinear)
+  //     .attr("d", this.line(this.props.data))
+  //     .on("end", () => {
+  //       console.log("ending");
+  //       this.setState({
+  //         data: this.props.data
+  //       });
+  //     });
+  // }
 
   render() {
-    // console.log('this.props: ', this.props)
-    // console.log('this.state: ', this.state)
     const { x, y, width, height } = this.props;
     const { xScale, yScale } = this.state;
     return (
       <div className="chart">
         <svg width={300} height={300}>
           <g width={width} height={height} transform={`${x}, ${y}`}>
-            <path className="line" d={this.line(this.props.data)} ref={this.lineRef}/>
+            <path
+              className="line"
+              d={this.line(this.props.data)}
+              ref={this.lineRef}
+            />
             <Axis x={0} y={height} type="Bottom" scale={xScale} />
             <Axis x={0} y={0} type="Left" scale={yScale} />
           </g>
