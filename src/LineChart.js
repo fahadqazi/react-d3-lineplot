@@ -26,7 +26,6 @@ class LineChart extends Component {
   static getDerivedStateFromProps(props, state) {
     let { xScale, yScale } = state;
     let { data } = props;
-    // console.log("Data from line chart: ", data);
     xScale.domain([d3.min(props.data, d => d.x), d3.max(props.data, d => d.x)]);
     yScale.domain([d3.min(props.data, d => d.y), d3.max(props.data, d => d.y)]);
 
@@ -49,11 +48,15 @@ class LineChart extends Component {
     const { x, y, width, height } = this.props;
     const { xScale, yScale } = this.state;
     return (
-      <g width={width} height={height} transform={`${x}, ${y}`}>
-        <path className="line" d={this.line(this.state.data)} />
-        <Axis x={0} y={height} type="Bottom" scale={xScale} />
-        <Axis x={0} y={0} type="Left" scale={yScale} />
-      </g>
+      <div className="chart">
+        <svg width={300} height={300}>
+          <g width={width} height={height} transform={`${x}, ${y}`}>
+            <path className="line" d={this.line(this.state.data)} />
+            <Axis x={0} y={height} type="Bottom" scale={xScale} />
+            <Axis x={0} y={0} type="Left" scale={yScale} />
+          </g>
+        </svg>
+      </div>
     );
   }
 }
