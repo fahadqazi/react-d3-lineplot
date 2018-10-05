@@ -19,14 +19,14 @@ class LineChart extends Component {
           d3.min(this.props.data, d => d.y),
           d3.max(this.props.data, d => d.y)
         ])
-        .range([this.props.height, 0]),
-      data: []
+        .range([this.props.height, 0])
+      // data: []
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let { xScale, yScale } = prevState;
-    let { data } = nextProps;
+    // let { data } = nextProps;
     xScale.domain([
       d3.min(nextProps.data, d => d.x),
       d3.max(nextProps.data, d => d.x)
@@ -36,7 +36,7 @@ class LineChart extends Component {
       d3.max(nextProps.data, d => d.y)
     ]);
 
-    prevState = { ...prevState, xScale, yScale, data };
+    prevState = { ...prevState, xScale, yScale };
     return prevState;
   }
 
@@ -50,20 +50,20 @@ class LineChart extends Component {
 
   lineRef = React.createRef();
 
-  // componentDidUpdate() {
-  //   let el = d3.select(this.lineRef.current);
+  componentDidUpdate() {
+    let el = d3.select(this.lineRef.current);
 
-  //   el.transition()
-  //     .duration(800)
-  //     .ease(d3.easeLinear)
-  //     .attr("d", this.line(this.props.data))
-  //     .on("end", () => {
-  //       console.log("ending");
-  //       this.setState({
-  //         data: this.props.data
-  //       });
-  //     });
-  // }
+    el.transition()
+      .duration(800)
+      .ease(d3.easeLinear)
+      .attr("d", this.line(this.props.data))
+      .on("end", () => {
+        console.log("ending");
+        this.setState({
+          data: this.props.data
+        });
+      });
+  }
 
   render() {
     const { x, y, width, height } = this.props;

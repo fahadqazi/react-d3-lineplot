@@ -9,7 +9,7 @@ const randomNumbers = (min, max) => {
 const genTimeData = function() {
   const arr = [];
   const duration = 500;
-  const maxLength = 100;
+  const maxLength = 40;
   const now = new Date();
   for (let i = 0; i < maxLength; i++) {
     arr.push({
